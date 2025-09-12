@@ -170,10 +170,10 @@ jobs:
     needs: linux_wheels
     steps:
       - uses: actions/checkout@v4.2.2
-      - name: Set up Python 3.x
+      - name: Set up Python 3.13
         uses: actions/setup-python@v5.4.0
         with:
-          python-version: 3.x
+          python-version: 3.13  # 3.14 fails!
       - uses: actions/download-artifact@v4.2.1
         with:
           pattern: py_wheel-*
@@ -284,13 +284,14 @@ jobs:
         with:
           path: ~/${{ env.FFMPEG_BUILD_PATH }}_${{ matrix.arch }}
           key: ${{ runner.os }}-ffmpeg-${{ matrix.arch }}-${{ env.MACOSX_DEPLOYMENT_TARGET }}-${{ env.MACOSX_DEPLOYMENT_TARGET_ARM }}-${{ hashFiles('.ci/build_wheels_osx.sh') }}
-      - name: Build FFmpeg
-        if: steps.cache-ffmpeg.outputs.cache-hit != 'true'
-        run: bash .ci/build_wheels_osx.sh "${{ matrix.arch }}"
+      #- name: Build FFmpeg
+      #  if: steps.cache-ffmpeg.outputs.cache-hit != 'true'
+      #  run: bash .ci/build_wheels_osx.sh "${{ matrix.arch }}"
+      - run: brew install ffmpeg  # https://formulae.brew.sh/formula/ffmpeg
 
       - name: Install cibuildwheel
         run: |
-          python -m pip install cibuildwheel~=2.23.3
+          python -m pip install cibuildwheel~=2.23.3 cython setuptools
       - name: Build wheels
         run: |
           export REPAIR_LIBRARY_PATH="$HOME/${{ env.FFMPEG_BUILD_PATH }}_${{ matrix.arch }}/lib"
