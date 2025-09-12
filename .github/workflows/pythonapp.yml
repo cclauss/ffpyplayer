@@ -23,7 +23,7 @@ jobs:
         include:
           - os: windows-11-arm
             python: 3.x
-      runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4.2.2
     - name: Set up Python ${{ matrix.python }}
