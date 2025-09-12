@@ -12,14 +12,18 @@ env:
 
 jobs:
   windows_wheels_tests:
-    runs-on: windows-latest
     env:
       FF_BUILD_DIR: ~/ff_deps
       SDL_ROOT: ~/ff_deps/SDL2
       FFMPEG_ROOT: ~/ff_deps/ffmpeg
     strategy:
       matrix:
+        os: [ windows-latest ]
         python: [ '3.9', '3.10', '3.11', '3.12', '3.13']
+        include:
+          - os: windows-11-arm
+          - python: 3.x
+      runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4.2.2
     - name: Set up Python ${{ matrix.python }}
