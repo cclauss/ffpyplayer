@@ -1,0 +1,29 @@
+name: pip_install_on_py314
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  pip_install_on_py314:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - if: runner.os == 'Linux'
+      run: sudo apt-get update && sudo apt-get install libsdl2-dev
+    - if: runner.os == 'macOS'
+      run: brew install ffmpeg sdl2
+    - if: runner.os == 'Windows'
+      run: |
+        curl -LO https://github.com/libsdl-org/SDL/releases/download/release-2.32.10/SDL2-devel-2.32.10-VC.zip
+        unzip SDL2-devel-2.32.10-VC.zip -d $env:USERPROFILE\SDL2
+        echo "SDL2_INCLUDE_DIR=$env:USERPROFILE\SDL2\SDL2-2.32.10\include" | Out-File -FilePath $env:GITHUB_ENV -Append
+        echo "SDL2_LIB_DIR=$env:USERPROFILE\SDL2\SDL2-2.32.10\lib\x64" | Out-File -FilePath $env:GITHUB_ENV -Append
+    - uses: actions/checkout@v5
+    - uses: actions/setup-python@v6
+      with:
+        python-version: 3.14
+    - run: pip install --upgrade pip
+    - run: pip install ffpyplayer
