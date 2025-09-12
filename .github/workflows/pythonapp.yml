@@ -19,13 +19,14 @@ jobs:
       FFMPEG_ROOT: ~/ff_deps/ffmpeg
     strategy:
       matrix:
-        python: [ '3.9', '3.10', '3.11', '3.12', '3.13']
+        python: [ '3.9', '3.10', '3.11', '3.12', '3.13', '3.14']
     steps:
-    - uses: actions/checkout@v4.2.2
+    - uses: actions/checkout@v5
     - name: Set up Python ${{ matrix.python }}
-      uses: actions/setup-python@v5.4.0
+      uses: actions/setup-python@v6
       with:
         python-version: ${{ matrix.python }}
+        allow-prereleases: true
     - name: Get dependencies
       run: |
         mkdir "$env:FF_BUILD_DIR"
