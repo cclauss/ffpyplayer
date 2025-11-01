@@ -7,7 +7,7 @@ env:
   SDL_VERSION: "2.26.4"  # https://github.com/libsdl-org/SDL/releases
   SDL_MIXER_VERSION: "2.6.3"  # https://github.com/libsdl-org/SDL_mixer/releases
   USE_SDL2_MIXER: "1"
-  MACOSX_DEPLOYMENT_TARGET: "10.13"
+  MACOSX_DEPLOYMENT_TARGET: "11.0"
   MACOSX_DEPLOYMENT_TARGET_ARM: "11.0"
 
 jobs:
