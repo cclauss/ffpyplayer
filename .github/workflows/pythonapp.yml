@@ -258,7 +258,7 @@ jobs:
           twine upload dist/*
 
   osx_wheels_create:
-    runs-on: macos-15-intel
+    runs-on: macos-13  # macos-15-intel fails!
     env:
       USE_SDL2_MIXER: 0
       FFMPEG_BUILD_PATH: "ffmpeg_build"
